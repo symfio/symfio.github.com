@@ -1,0 +1,53 @@
+<!DOCTYPE html>  <html> <head>   <title>assets.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               assets.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Compile and serve assets from public directory.</p>
+
+<pre><code>symfio = require "symfio"
+container = symfio "example", __dirname
+loader = container.get "loader"
+loader.use symfio.plugins.assets
+loader.load()
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">coffeescript = </span><span class="nx">require</span> <span class="s2">&quot;connect-coffee-script&quot;</span>
+<span class="nv">responsive = </span><span class="nx">require</span> <span class="s2">&quot;stylus-responsive&quot;</span>
+<span class="nv">express = </span><span class="nx">require</span> <span class="s2">&quot;express&quot;</span>
+<span class="nv">stylus = </span><span class="nx">require</span> <span class="s2">&quot;stylus&quot;</span>
+<span class="nv">jade = </span><span class="nx">require</span> <span class="s2">&quot;jade-static&quot;</span>
+<span class="nv">path = </span><span class="nx">require</span> <span class="s2">&quot;path&quot;</span>
+<span class="nv">nib = </span><span class="nx">require</span> <span class="s2">&quot;nib&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Used custom compiler for Stylus with imported <code>nib</code> and <code>responsive</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">compilerFactory = </span><span class="nf">(str, path) -&gt;</span>
+    <span class="nv">compiler = </span><span class="nx">stylus</span> <span class="nx">str</span>
+    
+    <span class="nx">compiler</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="nx">path</span>
+    <span class="nx">compiler</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;compress&quot;</span><span class="p">,</span> <span class="kc">false</span>
+    
+    <span class="nx">compiler</span><span class="p">.</span><span class="nx">use</span> <span class="nx">nib</span><span class="p">()</span>
+    <span class="nx">compiler</span><span class="p">.</span><span class="nx">use</span> <span class="nx">responsive</span>
+    
+    <span class="nx">compiler</span><span class="p">.</span><span class="nx">import</span> <span class="s2">&quot;nib&quot;</span>
+    <span class="nx">compiler</span><span class="p">.</span><span class="nx">import</span> <span class="s2">&quot;responsive&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Required plugins:</h3>
+
+<ul>
+<li><a href="express.html"><strong>Express</strong></a>.</li>
+</ul>
+
+<h3>Can be configured:</h3>
+
+<ul>
+<li><strong>public directory</strong> — Directory with assets.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="nf">(container, callback) -&gt;</span>
+    <span class="nv">publicDirectory = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;public directory&quot;</span>
+    <span class="nv">loader = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;loader&quot;</span>
+    <span class="nv">logger = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;logger&quot;</span>
+    <span class="nv">app = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;app&quot;</span>
+
+    <span class="nx">logger</span><span class="p">.</span><span class="nx">info</span> <span class="s2">&quot;loading plugin&quot;</span><span class="p">,</span> <span class="s2">&quot;assets&quot;</span>
+
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nx">stylus</span><span class="p">.</span><span class="nx">middleware</span> <span class="p">(</span>
+        <span class="nv">src: </span><span class="nx">publicDirectory</span>
+        <span class="nv">compile: </span><span class="nx">compilerFactory</span>
+    <span class="p">)</span>
+
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nx">jade</span> <span class="nx">publicDirectory</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nx">coffeescript</span> <span class="nx">publicDirectory</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nx">express</span><span class="p">.</span><span class="nx">static</span> <span class="nx">publicDirectory</span>
+
+    <span class="nx">callback</span><span class="p">()</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

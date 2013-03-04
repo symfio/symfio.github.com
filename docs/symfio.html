@@ -1,0 +1,39 @@
+<!DOCTYPE html>  <html> <head>   <title>symfio.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               symfio.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h3>Welcome to Symfio documentation</h3>
+
+<p>Symfio is a thin layer between Node.JS modules. Symfio allows you to
+connect Node.JS modules using a plugin system. Plugins are loaded
+asynchronously, which can reduce the time of application initialization.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">container = </span><span class="nx">require</span> <span class="s2">&quot;./symfio/container&quot;</span>
+<span class="nv">unloader = </span><span class="nx">require</span> <span class="s2">&quot;./symfio/unloader&quot;</span>
+<span class="nv">plugins = </span><span class="nx">require</span> <span class="s2">&quot;./symfio/plugins&quot;</span>
+<span class="nv">loader = </span><span class="nx">require</span> <span class="s2">&quot;./symfio/loader&quot;</span>
+<span class="nv">logger = </span><span class="nx">require</span> <span class="s2">&quot;./symfio/logger&quot;</span>
+<span class="nv">path = </span><span class="nx">require</span> <span class="s2">&quot;path&quot;</span>
+
+
+<span class="nv">createInstance = </span><span class="nf">(name, applicationDirectory) -&gt;</span>
+    <span class="nv">fixturesDirectory = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">applicationDirectory</span><span class="p">,</span> <span class="s2">&quot;fixtures&quot;</span>
+    <span class="nv">publicDirectory = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">applicationDirectory</span><span class="p">,</span> <span class="s2">&quot;public&quot;</span>
+    <span class="nv">uploadsDirectory = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">publicDirectory</span><span class="p">,</span> <span class="s2">&quot;uploads&quot;</span>
+    <span class="nv">instance = </span><span class="nx">container</span><span class="p">()</span>
+
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="nx">name</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;application directory&quot;</span><span class="p">,</span> <span class="nx">applicationDirectory</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;fixtures directory&quot;</span><span class="p">,</span> <span class="nx">fixturesDirectory</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;uploads directory&quot;</span><span class="p">,</span> <span class="nx">uploadsDirectory</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;public directory&quot;</span><span class="p">,</span> <span class="nx">publicDirectory</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;silent&quot;</span><span class="p">,</span> <span class="kc">false</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;logger&quot;</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">instance</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;loader&quot;</span><span class="p">,</span> <span class="nx">loader</span> <span class="nx">instance</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;unloader&quot;</span><span class="p">,</span> <span class="nx">unloader</span> <span class="nx">instance</span>
+
+    <span class="nx">instance</span>
+
+
+<span class="nv">module.exports = </span><span class="nx">createInstance</span>
+<span class="nv">module.exports.container = </span><span class="nx">container</span>
+<span class="nv">module.exports.loader = </span><span class="nx">loader</span>
+<span class="nv">module.exports.logger = </span><span class="nx">logger</span>
+<span class="nv">module.exports.plugins = </span><span class="nx">plugins</span>
+<span class="nv">module.exports.unloader = </span><span class="nx">unloader</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

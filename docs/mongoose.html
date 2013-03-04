@@ -1,0 +1,47 @@
+<!DOCTYPE html>  <html> <head>   <title>mongoose.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               mongoose.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Connect to MongoDB</p>
+
+<pre><code>symfio = require "symfio"
+container = symfio "example", __dirname
+container.set "connection string", "mongodb://localhost/test"
+loader = container.get "loader"
+loader.use symfio.plugins.mongoose
+loader.load()
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">mongoose = </span><span class="nx">require</span> <span class="s2">&quot;mongoose&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Provides:</h3>
+
+<ul>
+<li><strong>connection</strong> — Mongoose connection instance.</li>
+<li><strong>mongoose</strong> — <code>mongoose</code> module.</li>
+<li><strong>mongodb</strong> — <code>mongodb</code> module.</li>
+</ul>
+
+<h3>Can be configured:</h3>
+
+<ul>
+<li><strong>connection string</strong> — MongoDB connection string.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="nf">(container, callback) -&gt;</span>
+    <span class="nv">unloader = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;unloader&quot;</span>
+    <span class="nv">loader = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;loader&quot;</span>
+    <span class="nv">logger = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;logger&quot;</span>
+    <span class="nv">name = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;name&quot;</span>
+
+    <span class="nx">logger</span><span class="p">.</span><span class="nx">info</span> <span class="s2">&quot;loading plugin&quot;</span><span class="p">,</span> <span class="s2">&quot;mongoose&quot;</span>
+
+    <span class="nv">connection = </span><span class="nx">mongoose</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">()</span>
+
+    <span class="nx">container</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;connection&quot;</span><span class="p">,</span> <span class="nx">connection</span>
+    <span class="nx">container</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;mongoose&quot;</span><span class="p">,</span> <span class="nx">mongoose</span>
+    <span class="nx">container</span><span class="p">.</span><span class="nx">set</span> <span class="s2">&quot;mongodb&quot;</span><span class="p">,</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">mongo</span>
+
+    <span class="nv">connectionString = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;connection string&quot;</span><span class="p">,</span>
+        <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGOHQ_URL</span> <span class="o">or</span> <span class="s2">&quot;mongodb://localhost/#{name}&quot;</span>
+
+    <span class="nx">connection</span><span class="p">.</span><span class="nx">open</span> <span class="nx">connectionString</span><span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">callback</span><span class="p">()</span>
+
+    <span class="nx">unloader</span><span class="p">.</span><span class="nx">register</span> <span class="nf">(callback) -&gt;</span>
+        <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">connection</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">is</span> <span class="mi">1</span>
+
+        <span class="nx">connection</span><span class="p">.</span><span class="nx">close</span> <span class="o">-&gt;</span>
+            <span class="nx">callback</span><span class="p">()</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

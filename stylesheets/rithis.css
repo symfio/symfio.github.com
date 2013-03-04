@@ -1,0 +1,122 @@
+body {
+    font-family: Roboto;
+    font-weight: 100;
+    text-align: center;
+}
+
+a {
+    color: black; 
+}
+
+pre {
+    padding: 8px;
+    background: #f0f0f0;
+}
+
+code {
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+h1, h2 {
+    font-weight: 900;
+}
+
+.project-name {
+    display: block;
+    margin: 16px 0 8px;
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.project-name.project-name-index {
+    font-size: 64px;
+}
+
+.slogan {
+    margin: 8px;
+    font-size: 16px;
+}
+
+.slogan.slogan-index {
+    font-size: 32px;
+}
+
+.menu {
+    margin: 32px 0 64px;
+}
+
+.menu .menu-item {
+    display: inline-block;
+    margin: 8px 16px;
+    font-size: 16px;
+    color: gray;
+}
+
+.menu.menu-index {
+    margin: 128px 0 0;
+}
+
+.menu.menu-index .menu-item {
+    font-size: 32px;
+}
+
+.content {
+    margin: 16px;
+    padding: 8px 16px;
+    text-align: left;
+    background: #f9f9f9;
+}
+
+.company {
+    width: 100%;
+    margin: 128px 0 16px;
+    font-size: 16px;
+}
+
+.company.company-index {
+    position: absolute;
+    bottom: 16px;
+}
+
+@media (max-width: 979px) {
+    pre {
+        width: 800px;
+    }
+
+    .menu .menu-item {
+        color: black;
+    }
+
+    .menu.menu-index .menu-item {
+        color: gray;
+    }
+
+    .content {
+        margin: 0;
+    }
+
+    .highlight {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .slogan.slogan-index {
+        font-size: 24px;
+    }
+
+    .menu, .menu.menu-index {
+        margin: 16px 0;
+    }
+
+    .company {
+        margin-top: 32px;
+    }
+
+    .company.company-index {
+        position: static;
+    }
+}

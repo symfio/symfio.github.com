@@ -1,0 +1,31 @@
+<!DOCTYPE html>  <html> <head>   <title>loader.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               loader.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">events = </span><span class="nx">require</span> <span class="s2">&quot;events&quot;</span>
+<span class="nv">async = </span><span class="nx">require</span> <span class="s2">&quot;async&quot;</span>
+
+
+<span class="k">class</span> <span class="nx">Loader</span> <span class="k">extends</span> <span class="nx">events</span><span class="p">.</span><span class="nx">EventEmitter</span>
+    <span class="nv">constructor: </span><span class="nf">(@container) -&gt;</span>
+        <span class="vi">@plugins = </span><span class="p">[]</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>To connect plugin pass it to <code>use</code> method of loader instance.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">use: </span><span class="nf">(plugin) -&gt;</span>
+        <span class="nx">@plugins</span><span class="p">.</span><span class="nx">push</span> <span class="nx">plugin</span>
+
+    <span class="nv">load: </span><span class="nf">(callback) -&gt;</span>
+        <span class="nx">@once</span> <span class="s2">&quot;loaded&quot;</span><span class="p">,</span> <span class="nx">callback</span> <span class="k">if</span> <span class="k">typeof</span> <span class="nx">callback</span> <span class="o">is</span> <span class="s2">&quot;function&quot;</span>
+
+        <span class="nv">pluginWorker = </span><span class="p">(</span><span class="nx">plugin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=&gt;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>The plugin is a function that takes two arguments:</p>
+
+<ul>
+<li><strong>container</strong> — Container instance.</li>
+<li><strong>callback</strong> — Callback to notify the loader.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">plugin</span> <span class="nx">@container</span><span class="p">,</span> <span class="nx">callback</span>
+
+        <span class="nx">async</span><span class="p">.</span><span class="nx">forEachSeries</span> <span class="nx">@plugins</span><span class="p">,</span> <span class="nx">pluginWorker</span><span class="p">,</span> <span class="o">=&gt;</span>
+            <span class="nx">@emit</span> <span class="s2">&quot;loaded&quot;</span>
+
+
+<span class="nv">createInstance = </span><span class="nf">(container) -&gt;</span>
+    <span class="k">new</span> <span class="nx">Loader</span> <span class="nx">container</span>
+
+
+<span class="nv">module.exports = </span><span class="nx">createInstance</span>
+<span class="nv">module.exports.Loader = </span><span class="nx">Loader</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
