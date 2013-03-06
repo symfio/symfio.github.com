@@ -43,9 +43,12 @@ loader.load()
 
     <span class="nx">async</span><span class="p">.</span><span class="nx">series</span> <span class="p">[</span>
         <span class="nf">(callback) -&gt;</span>
-            <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">hashFile</span><span class="p">,</span> <span class="nf">(err, previousHash) -&gt;</span>
-                <span class="k">return</span> <span class="nx">callback</span> <span class="nx">previousHash</span> <span class="k">if</span> <span class="nx">hashString</span> <span class="o">==</span> <span class="nx">previousHash</span>
-                <span class="nx">callback</span><span class="p">()</span>
+            <span class="nv">componentsDirectory = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">publicDirectory</span><span class="p">,</span> <span class="s2">&quot;components&quot;</span>
+            <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span> <span class="nx">componentsDirectory</span><span class="p">,</span> <span class="nf">(err, stat) -&gt;</span>
+                <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="k">if</span> <span class="nx">err</span> <span class="o">or</span> <span class="o">not</span> <span class="nx">stat</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">()</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">hashFile</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">,</span> <span class="nf">(err, previousHash) -&gt;</span>
+                    <span class="k">return</span> <span class="nx">callback</span> <span class="nx">previousHash</span> <span class="k">if</span> <span class="nx">hashString</span> <span class="o">==</span> <span class="nx">previousHash</span>
+                    <span class="nx">callback</span><span class="p">()</span>
 
         <span class="nf">(callback) -&gt;</span>
             <span class="nv">cwd = </span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">()</span>
