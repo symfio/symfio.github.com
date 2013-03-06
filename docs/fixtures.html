@@ -79,7 +79,7 @@ collection name:</p>
                             <span class="nv">item = </span><span class="k">new</span> <span class="nx">model</span> <span class="nx">data</span>
                             <span class="nx">item</span><span class="p">.</span><span class="nx">save</span> <span class="nx">callback</span>
 
-                        <span class="nx">async</span><span class="p">.</span><span class="nx">forEach</span> <span class="nx">fixture</span><span class="p">,</span> <span class="nx">itemWorker</span><span class="p">,</span> <span class="o">-&gt;</span>
+                        <span class="nx">async</span><span class="p">.</span><span class="nx">forEachSeries</span> <span class="nx">fixture</span><span class="p">,</span> <span class="nx">itemWorker</span><span class="p">,</span> <span class="o">-&gt;</span>
                             <span class="nx">callback</span><span class="p">()</span>
             <span class="p">],</span> <span class="nx">callback</span>
 
