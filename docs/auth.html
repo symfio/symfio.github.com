@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <html> <head>   <title>auth.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               auth.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Authentication using tokens.</p>
+<!DOCTYPE html>  <html> <head>   <title>auth.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express-logger.html">                 express-logger.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               auth.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Authentication using tokens.</p>
 
 <pre><code>symfio = require "symfio"
 container = symfio "example", __dirname
@@ -8,7 +8,7 @@ loader.use symfio.plugins.express
 loader.use symfio.plugins.mongoose
 loader.load()
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">crypto = </span><span class="nx">require</span> <span class="s2">&quot;crypto&quot;</span>
-<span class="nv">ms = </span><span class="nx">require</span> <span class="s2">&quot;ms&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Required plugins:</h3>
+<span class="nv">ms     = </span><span class="nx">require</span> <span class="s2">&quot;ms&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Required plugins:</h3>
 
 <ul>
 <li><a href="express.html"><strong>Express</strong></a>.</li>
@@ -20,107 +20,105 @@ loader.load()
 <ul>
 <li><strong>token expires</strong> — Token expiration.</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="nf">(container, callback) -&gt;</span>
-    <span class="nv">connection = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;connection&quot;</span>
-    <span class="nv">mongoose = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;mongoose&quot;</span>
-    <span class="nv">expires = </span><span class="nx">ms</span> <span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;token expires&quot;</span><span class="p">,</span> <span class="s2">&quot;7d&quot;</span>
-    <span class="nv">loader = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;loader&quot;</span>
-    <span class="nv">logger = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;logger&quot;</span>
-    <span class="nv">app = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;app&quot;</span>
+  <span class="nv">connection = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;connection&quot;</span>
+  <span class="nv">mongoose   = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;mongoose&quot;</span>
+  <span class="nv">expires    = </span><span class="nx">ms</span> <span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;token expires&quot;</span><span class="p">,</span> <span class="s2">&quot;7d&quot;</span>
+  <span class="nv">loader     = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;loader&quot;</span>
+  <span class="nv">logger     = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;logger&quot;</span>
+  <span class="nv">app        = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;app&quot;</span>
 
-    <span class="nx">logger</span><span class="p">.</span><span class="nx">info</span> <span class="s2">&quot;loading plugin&quot;</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span>
+  <span class="nx">logger</span><span class="p">.</span><span class="nx">info</span> <span class="s2">&quot;loading plugin&quot;</span><span class="p">,</span> <span class="s2">&quot;auth&quot;</span>
 
-    <span class="nv">hash = </span><span class="nf">(data) -&gt;</span>
-        <span class="nv">h = </span><span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span> <span class="s2">&quot;sha256&quot;</span>
-        <span class="nx">h</span><span class="p">.</span><span class="nx">update</span> <span class="nx">data</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span>
-        <span class="nx">h</span><span class="p">.</span><span class="nx">digest</span> <span class="s2">&quot;hex&quot;</span>
+  <span class="nv">hash = </span><span class="nf">(data) -&gt;</span>
+    <span class="nv">h = </span><span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span> <span class="s2">&quot;sha256&quot;</span>
+    <span class="nx">h</span><span class="p">.</span><span class="nx">update</span> <span class="nx">data</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span>
+    <span class="nx">h</span><span class="p">.</span><span class="nx">digest</span> <span class="s2">&quot;hex&quot;</span>
 
-    <span class="nv">randomHash = </span><span class="o">-&gt;</span>
-        <span class="nx">hash</span> <span class="nb">String</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span>
+  <span class="nv">randomHash = </span><span class="o">-&gt;</span>
+    <span class="nx">hash</span> <span class="nb">String</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span>
 
-    <span class="nv">password = </span><span class="nf">(password, salt) -&gt;</span>
-        <span class="nx">hash</span> <span class="s2">&quot;#{password}:#{salt}&quot;</span>
+  <span class="nv">password = </span><span class="nf">(password, salt) -&gt;</span>
+    <span class="nx">hash</span> <span class="s2">&quot;#{password}:#{salt}&quot;</span>
 
-    <span class="nv">TokenSchema = </span><span class="k">new</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span>
-        <span class="nv">hash: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span><span class="p">,</span> <span class="nv">index: unique: </span><span class="kc">true</span>
-        <span class="nv">expires: type: </span><span class="nb">Date</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
+  <span class="nv">TokenSchema = </span><span class="k">new</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span>
+    <span class="nv">hash: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span><span class="p">,</span> <span class="nv">index: unique: </span><span class="kc">true</span>
+    <span class="nv">expires: type: </span><span class="nb">Date</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
 
-    <span class="nv">UserSchema = </span><span class="k">new</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span>
-        <span class="nv">username: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
-        <span class="nv">password: type: </span><span class="nb">String</span>
-        <span class="nv">passwordHash: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
-        <span class="nv">salt: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
-        <span class="nv">tokens: </span><span class="p">[</span><span class="nx">TokenSchema</span><span class="p">]</span>
-        <span class="nv">metadata: type: </span><span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">Mixed</span>
+  <span class="nv">UserSchema = </span><span class="k">new</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span>
+    <span class="nv">username: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
+    <span class="nv">password: type: </span><span class="nb">String</span>
+    <span class="nv">passwordHash: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
+    <span class="nv">salt: type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">required: </span><span class="kc">true</span>
+    <span class="nv">tokens: </span><span class="p">[</span><span class="nx">TokenSchema</span><span class="p">]</span>
+    <span class="nv">metadata: type: </span><span class="nx">mongoose</span><span class="p">.</span><span class="nx">Schema</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">Mixed</span>
 
-    <span class="nx">UserSchema</span><span class="p">.</span><span class="nx">pre</span> <span class="s2">&quot;validate&quot;</span><span class="p">,</span> <span class="nf">(callback) -&gt;</span>
-        <span class="vi">@salt = </span><span class="nx">randomHash</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">@salt</span>
+  <span class="nx">UserSchema</span><span class="p">.</span><span class="nx">pre</span> <span class="s2">&quot;validate&quot;</span><span class="p">,</span> <span class="nf">(callback) -&gt;</span>
+    <span class="vi">@salt = </span><span class="nx">randomHash</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">@salt</span>
 
-        <span class="k">if</span> <span class="nx">@password</span>
-            <span class="vi">@passwordHash = </span><span class="nx">password</span> <span class="nx">@password</span><span class="p">,</span> <span class="nx">@salt</span>
-            <span class="vi">@password = </span><span class="kc">undefined</span>
-            
-        <span class="nx">callback</span><span class="p">()</span>
-
-    <span class="nv">User = </span><span class="nx">connection</span><span class="p">.</span><span class="nx">model</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="nx">UserSchema</span>
-
-    <span class="nv">findUser = </span><span class="nf">(tokenHash, callback) -&gt;</span>
-        <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span> <span class="s2">&quot;tokens.hash&quot;</span><span class="o">:</span> <span class="nx">tokenHash</span><span class="p">,</span> <span class="nf">(err, user) -&gt;</span>
-            <span class="k">return</span> <span class="nx">callback</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
-            <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">user</span>
-
-            <span class="nv">currentToken = </span><span class="kc">null</span>
-            <span class="k">for</span> <span class="nx">token</span> <span class="k">in</span> <span class="nx">user</span><span class="p">.</span><span class="nx">tokens</span>
-                <span class="k">if</span> <span class="nx">token</span><span class="p">.</span><span class="nx">hash</span> <span class="o">is</span> <span class="nx">tokenHash</span>
-                    <span class="nv">currentToken = </span><span class="nx">token</span>
-
-            <span class="k">if</span> <span class="o">not</span> <span class="nx">currentToken</span> <span class="o">or</span> <span class="k">new</span> <span class="nb">Date</span> <span class="o">&gt;</span> <span class="nx">currentToken</span><span class="p">.</span><span class="nx">expires</span>
-                <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span>
-
-            <span class="nx">callback</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">username: </span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nv">token: </span><span class="nx">currentToken</span>
-
-    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nf">(req, res, callback) -&gt;</span>
-        <span class="nv">authHeader = </span><span class="nx">req</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;Authorization&quot;</span>
-
-        <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">authHeader</span>
-        <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">authHeader</span><span class="p">.</span><span class="nx">indexOf</span> <span class="s2">&quot;Token &quot;</span> <span class="o">is</span> <span class="mi">0</span>
-
-        <span class="nv">tokenHash = </span><span class="nx">authHeader</span><span class="p">.</span><span class="nx">replace</span> <span class="s2">&quot;Token &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
-
-        <span class="nx">findUser</span> <span class="nx">tokenHash</span><span class="p">,</span> <span class="nf">(err, user) -&gt;</span>
-            <span class="nv">req.user = </span><span class="nx">user</span> <span class="k">if</span> <span class="nx">user</span>
-            <span class="nx">callback</span><span class="p">()</span>
-
-    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nf">(req, res, callback) -&gt;</span>
-        <span class="nx">unless</span> <span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;/sessions/&quot;</span><span class="p">)</span> <span class="o">is</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">is</span> <span class="s2">&quot;GET&quot;</span>
-            <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span>
-
-        <span class="nx">findUser</span> <span class="nx">req</span><span class="p">.</span><span class="nx">_parsedUrl</span><span class="p">.</span><span class="nx">pathname</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/sessions/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="nf">(err, user) -&gt;</span>
-                <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">500</span> <span class="k">if</span> <span class="nx">err</span>
-                <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="k">if</span> <span class="nx">user</span> <span class="k">then</span> <span class="mi">200</span> <span class="k">else</span> <span class="mi">404</span>
-
-    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nf">(req, res, callback) -&gt;</span>
-        <span class="nx">unless</span> <span class="nx">req</span><span class="p">.</span><span class="nx">url</span> <span class="o">is</span> <span class="s2">&quot;/sessions&quot;</span> <span class="o">and</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">is</span> <span class="s2">&quot;POST&quot;</span>
-            <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span>
-
-        <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span> <span class="nv">username: </span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nf">(err, user) -&gt;</span>
-            <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">500</span> <span class="k">if</span> <span class="nx">err</span>
-            <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">401</span> <span class="nx">unless</span> <span class="nx">user</span>
-
-            <span class="k">if</span> <span class="nx">password</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">salt</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">passwordHash</span>
-                <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">401</span>
-
-            <span class="nv">tokenHash = </span><span class="nx">randomHash</span><span class="p">()</span>
-
-            <span class="nx">user</span><span class="p">.</span><span class="nx">tokens</span><span class="p">.</span><span class="nx">push</span>
-                <span class="nv">hash: </span><span class="nx">tokenHash</span>
-                <span class="nv">expires: </span><span class="k">new</span> <span class="nb">Date</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="nx">expires</span>
-
-            <span class="nx">user</span><span class="p">.</span><span class="nx">save</span> <span class="nf">(err) -&gt;</span>
-                <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">500</span> <span class="k">if</span> <span class="nx">err</span>
-
-                <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">201</span><span class="p">,</span> <span class="nv">token: </span><span class="nx">tokenHash</span>
+    <span class="k">if</span> <span class="nx">@password</span>
+      <span class="vi">@passwordHash = </span><span class="nx">password</span> <span class="nx">@password</span><span class="p">,</span> <span class="nx">@salt</span>
+      <span class="vi">@password = </span><span class="kc">undefined</span>
 
     <span class="nx">callback</span><span class="p">()</span>
+
+  <span class="nv">User = </span><span class="nx">connection</span><span class="p">.</span><span class="nx">model</span> <span class="s2">&quot;users&quot;</span><span class="p">,</span> <span class="nx">UserSchema</span>
+
+  <span class="nv">findUser = </span><span class="nf">(tokenHash, callback) -&gt;</span>
+    <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span> <span class="s2">&quot;tokens.hash&quot;</span><span class="o">:</span> <span class="nx">tokenHash</span><span class="p">,</span> <span class="nf">(err, user) -&gt;</span>
+      <span class="k">return</span> <span class="nx">callback</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span>
+      <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">user</span>
+
+      <span class="nv">currentToken = </span><span class="kc">null</span>
+      <span class="k">for</span> <span class="nx">token</span> <span class="k">in</span> <span class="nx">user</span><span class="p">.</span><span class="nx">tokens</span>
+        <span class="k">if</span> <span class="nx">token</span><span class="p">.</span><span class="nx">hash</span> <span class="o">is</span> <span class="nx">tokenHash</span>
+          <span class="nv">currentToken = </span><span class="nx">token</span>
+
+      <span class="k">if</span> <span class="o">not</span> <span class="nx">currentToken</span> <span class="o">or</span> <span class="k">new</span> <span class="nb">Date</span> <span class="o">&gt;</span> <span class="nx">currentToken</span><span class="p">.</span><span class="nx">expires</span>
+        <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span>
+
+      <span class="nx">callback</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">username: </span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nv">token: </span><span class="nx">currentToken</span>
+
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nf">(req, res, callback) -&gt;</span>
+    <span class="nv">authHeader = </span><span class="nx">req</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;Authorization&quot;</span>
+
+    <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">authHeader</span>
+    <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="nx">unless</span> <span class="nx">authHeader</span><span class="p">.</span><span class="nx">indexOf</span> <span class="s2">&quot;Token &quot;</span> <span class="o">is</span> <span class="mi">0</span>
+
+    <span class="nv">tokenHash = </span><span class="nx">authHeader</span><span class="p">.</span><span class="nx">replace</span> <span class="s2">&quot;Token &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="nx">findUser</span> <span class="nx">tokenHash</span><span class="p">,</span> <span class="nf">(err, user) -&gt;</span>
+      <span class="nv">req.user = </span><span class="nx">user</span> <span class="k">if</span> <span class="nx">user</span>
+      <span class="nx">callback</span><span class="p">()</span>
+
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nf">(req, res, callback) -&gt;</span>
+    <span class="nx">unless</span> <span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;/sessions/&quot;</span><span class="p">)</span> <span class="o">is</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">is</span> <span class="s2">&quot;GET&quot;</span>
+      <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span>
+
+    <span class="nx">findUser</span> <span class="nx">req</span><span class="p">.</span><span class="nx">_parsedUrl</span><span class="p">.</span><span class="nx">pathname</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;/sessions/&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="nf">(err, user) -&gt;</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">500</span> <span class="k">if</span> <span class="nx">err</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="k">if</span> <span class="nx">user</span> <span class="k">then</span> <span class="mi">200</span> <span class="k">else</span> <span class="mi">404</span>
+
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nf">(req, res, callback) -&gt;</span>
+    <span class="nx">unless</span> <span class="nx">req</span><span class="p">.</span><span class="nx">url</span> <span class="o">is</span> <span class="s2">&quot;/sessions&quot;</span> <span class="o">and</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">is</span> <span class="s2">&quot;POST&quot;</span>
+      <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span>
+
+    <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span> <span class="nv">username: </span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nf">(err, user) -&gt;</span>
+      <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">500</span> <span class="k">if</span> <span class="nx">err</span>
+      <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">401</span> <span class="nx">unless</span> <span class="nx">user</span>
+
+      <span class="k">if</span> <span class="nx">password</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">salt</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">passwordHash</span>
+        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">401</span>
+
+      <span class="nv">tokenHash = </span><span class="nx">randomHash</span><span class="p">()</span>
+
+      <span class="nx">user</span><span class="p">.</span><span class="nx">tokens</span><span class="p">.</span><span class="nx">push</span>
+        <span class="nv">hash: </span><span class="nx">tokenHash</span>
+        <span class="nv">expires: </span><span class="k">new</span> <span class="nb">Date</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="nx">expires</span>
+
+      <span class="nx">user</span><span class="p">.</span><span class="nx">save</span> <span class="nf">(err) -&gt;</span>
+        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">500</span> <span class="k">if</span> <span class="nx">err</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">201</span><span class="p">,</span> <span class="nv">token: </span><span class="nx">tokenHash</span>
+
+  <span class="nx">callback</span><span class="p">()</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

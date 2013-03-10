@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <html> <head>   <title>bower.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               bower.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Install components from the Bower repository to the public directory.</p>
+<!DOCTYPE html>  <html> <head>   <title>bower.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="symfio.html">                 symfio.coffee               </a>                                           <a class="source" href="container.html">                 container.coffee               </a>                                           <a class="source" href="errors.html">                 errors.coffee               </a>                                           <a class="source" href="loader.html">                 loader.coffee               </a>                                           <a class="source" href="logger.html">                 logger.coffee               </a>                                           <a class="source" href="assets.html">                 assets.coffee               </a>                                           <a class="source" href="auth.html">                 auth.coffee               </a>                                           <a class="source" href="bower.html">                 bower.coffee               </a>                                           <a class="source" href="crud.html">                 crud.coffee               </a>                                           <a class="source" href="express-logger.html">                 express-logger.coffee               </a>                                           <a class="source" href="express.html">                 express.coffee               </a>                                           <a class="source" href="fixtures.html">                 fixtures.coffee               </a>                                           <a class="source" href="mongoose.html">                 mongoose.coffee               </a>                                           <a class="source" href="uploads.html">                 uploads.coffee               </a>                                           <a class="source" href="unloader.html">                 unloader.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               bower.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Install components from the Bower repository to the public directory.</p>
 
 <pre><code>symfio = require "symfio"
 container = symfio "example", __dirname
@@ -7,10 +7,10 @@ loader = container.get "loader"
 loader.use symfio.plugins.bower
 loader.load()
 </code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">crypto = </span><span class="nx">require</span> <span class="s2">&quot;crypto&quot;</span>
-<span class="nv">bower = </span><span class="nx">require</span> <span class="s2">&quot;bower&quot;</span>
-<span class="nv">async = </span><span class="nx">require</span> <span class="s2">&quot;async&quot;</span>
-<span class="nv">path = </span><span class="nx">require</span> <span class="s2">&quot;path&quot;</span>
-<span class="nv">fs = </span><span class="nx">require</span> <span class="s2">&quot;fs&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Required configuration:</h3>
+<span class="nv">bower  = </span><span class="nx">require</span> <span class="s2">&quot;bower&quot;</span>
+<span class="nv">async  = </span><span class="nx">require</span> <span class="s2">&quot;async&quot;</span>
+<span class="nv">path   = </span><span class="nx">require</span> <span class="s2">&quot;path&quot;</span>
+<span class="nv">fs     = </span><span class="nx">require</span> <span class="s2">&quot;fs&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Required configuration:</h3>
 
 <ul>
 <li><strong>components</strong> — Array with components.</li>
@@ -22,51 +22,53 @@ loader.load()
 <li><strong>application directory</strong> — Directory with application sources.</li>
 <li><strong>public directory</strong> — Directory with assets.</li>
 </ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="nf">(container, callback) -&gt;</span>
-    <span class="nv">applicationDirectory = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;application directory&quot;</span>
-    <span class="nv">publicDirectory = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;public directory&quot;</span>
-    <span class="nv">components = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;components&quot;</span><span class="p">,</span> <span class="p">[]</span>
-    <span class="nv">hashFile = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">applicationDirectory</span><span class="p">,</span> <span class="s2">&quot;.components&quot;</span>
-    <span class="nv">loader = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;loader&quot;</span>
-    <span class="nv">logger = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;logger&quot;</span>
+  <span class="nv">applicationDirectory = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;application directory&quot;</span>
+  <span class="nv">publicDirectory      = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;public directory&quot;</span>
+  <span class="nv">components           = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;components&quot;</span><span class="p">,</span> <span class="p">[]</span>
+  <span class="nv">hashFile             = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">applicationDirectory</span><span class="p">,</span> <span class="s2">&quot;.components&quot;</span>
+  <span class="nv">loader               = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;loader&quot;</span>
+  <span class="nv">logger               = </span><span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;logger&quot;</span>
 
-    <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="k">if</span> <span class="nx">components</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="k">if</span> <span class="nx">components</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span>
 
-    <span class="nx">logger</span><span class="p">.</span><span class="nx">info</span> <span class="s2">&quot;loading plugin&quot;</span><span class="p">,</span> <span class="s2">&quot;bower&quot;</span>
+  <span class="nx">logger</span><span class="p">.</span><span class="nx">info</span> <span class="s2">&quot;loading plugin&quot;</span><span class="p">,</span> <span class="s2">&quot;bower&quot;</span>
 
-    <span class="nv">hash = </span><span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span> <span class="s2">&quot;sha256&quot;</span>
+  <span class="nv">hash = </span><span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span> <span class="s2">&quot;sha256&quot;</span>
 
-    <span class="k">for</span> <span class="nx">component</span> <span class="k">in</span> <span class="nx">components</span>
-        <span class="nx">hash</span><span class="p">.</span><span class="nx">update</span> <span class="nx">component</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span>
-        <span class="nx">hash</span><span class="p">.</span><span class="nx">update</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span>
+  <span class="k">for</span> <span class="nx">component</span> <span class="k">in</span> <span class="nx">components</span>
+    <span class="nx">hash</span><span class="p">.</span><span class="nx">update</span> <span class="nx">component</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span>
+    <span class="nx">hash</span><span class="p">.</span><span class="nx">update</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span>
 
-    <span class="nv">hashString = </span><span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span> <span class="s2">&quot;hex&quot;</span>
+  <span class="nv">hashString = </span><span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span> <span class="s2">&quot;hex&quot;</span>
 
-    <span class="nx">async</span><span class="p">.</span><span class="nx">series</span> <span class="p">[</span>
-        <span class="nf">(callback) -&gt;</span>
-            <span class="nv">componentsDirectory = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">publicDirectory</span><span class="p">,</span> <span class="s2">&quot;components&quot;</span>
-            <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span> <span class="nx">componentsDirectory</span><span class="p">,</span> <span class="nf">(err, stat) -&gt;</span>
-                <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="k">if</span> <span class="nx">err</span> <span class="o">or</span> <span class="o">not</span> <span class="nx">stat</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">()</span>
-                <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">hashFile</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">,</span> <span class="nf">(err, previousHash) -&gt;</span>
-                    <span class="k">return</span> <span class="nx">callback</span> <span class="nx">previousHash</span> <span class="k">if</span> <span class="nx">hashString</span> <span class="o">==</span> <span class="nx">previousHash</span>
-                    <span class="nx">callback</span><span class="p">()</span>
+  <span class="nx">async</span><span class="p">.</span><span class="nx">series</span> <span class="p">[</span>
+    <span class="nf">(callback) -&gt;</span>
+      <span class="nv">componentsDirectory = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">publicDirectory</span><span class="p">,</span> <span class="s2">&quot;components&quot;</span>
 
-        <span class="nf">(callback) -&gt;</span>
-            <span class="nv">cwd = </span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">()</span>
-            <span class="nx">process</span><span class="p">.</span><span class="nx">chdir</span> <span class="nx">publicDirectory</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span> <span class="nx">componentsDirectory</span><span class="p">,</span> <span class="nf">(err, stat) -&gt;</span>
+        <span class="k">return</span> <span class="nx">callback</span><span class="p">()</span> <span class="k">if</span> <span class="nx">err</span> <span class="o">or</span> <span class="o">not</span> <span class="nx">stat</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">()</span>
 
-            <span class="nv">installation = </span><span class="nx">bower</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">install</span> <span class="nx">components</span>
+        <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">hashFile</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">,</span> <span class="nf">(err, previousHash) -&gt;</span>
+          <span class="k">return</span> <span class="nx">callback</span> <span class="nx">previousHash</span> <span class="k">if</span> <span class="nx">hashString</span> <span class="o">==</span> <span class="nx">previousHash</span>
+          <span class="nx">callback</span><span class="p">()</span>
 
-            <span class="nx">unless</span> <span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;silent&quot;</span>
-                <span class="nx">installation</span><span class="p">.</span><span class="kc">on</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span>
-                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">data</span>
+    <span class="nf">(callback) -&gt;</span>
+      <span class="nv">cwd = </span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">()</span>
+      <span class="nx">process</span><span class="p">.</span><span class="nx">chdir</span> <span class="nx">publicDirectory</span>
 
-            <span class="nx">installation</span><span class="p">.</span><span class="kc">on</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="o">-&gt;</span>
-                <span class="nx">process</span><span class="p">.</span><span class="nx">chdir</span> <span class="nx">cwd</span>
-                <span class="nx">callback</span><span class="p">()</span>
+      <span class="nv">installation = </span><span class="nx">bower</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">install</span> <span class="nx">components</span>
 
-        <span class="nf">(callback) -&gt;</span>
-            <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">hashFile</span><span class="p">,</span> <span class="nx">hashString</span><span class="p">,</span> <span class="o">-&gt;</span>
-                <span class="nx">callback</span><span class="p">()</span>
-    <span class="p">],</span> <span class="o">-&gt;</span> <span class="nx">callback</span><span class="p">()</span>
+      <span class="nx">unless</span> <span class="nx">container</span><span class="p">.</span><span class="nx">get</span> <span class="s2">&quot;silent&quot;</span>
+        <span class="nx">installation</span><span class="p">.</span><span class="kc">on</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">data</span>
+
+      <span class="nx">installation</span><span class="p">.</span><span class="kc">on</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">process</span><span class="p">.</span><span class="nx">chdir</span> <span class="nx">cwd</span>
+        <span class="nx">callback</span><span class="p">()</span>
+
+    <span class="nf">(callback) -&gt;</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">hashFile</span><span class="p">,</span> <span class="nx">hashString</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="nx">callback</span><span class="p">()</span>
+
+  <span class="p">],</span> <span class="o">-&gt;</span> <span class="nx">callback</span><span class="p">()</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
